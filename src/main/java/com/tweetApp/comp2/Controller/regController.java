@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -24,8 +25,9 @@ public class regController {
     @Autowired
     RegisterService rService;
     @PostMapping(value="/api/v1.0/tweets/register")
-    public ResponseEntity<String> registerUser(User user){
-        return rService.registerUSer(user);
+    public ResponseEntity<String> registerUser(@RequestBody User user){
+
+        return rService.registerUser(user);
     }
 
 }

@@ -5,6 +5,7 @@ import com.tweetApp.comp2.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 
+import java.text.SimpleDateFormat;
 import java.util.logging.Logger;
 
 public class runner implements CommandLineRunner {
@@ -18,8 +19,8 @@ public class runner implements CommandLineRunner {
 
         u_repo.deleteAll();
 
-        u_repo.save(new User(0,"hapi@gmail.com","hari","piya",07-05-1999,"female","password","password",0));
-        u_repo.save(new User(1,"hapi@gmail.com","hari","piya",07-05-1999,"female","password","password",0));
+        u_repo.save(new User(0,"hapi@gmail.com","hari","piya",new SimpleDateFormat("dd-MM-yyyy").parse("07-07-1999"),"female","password","password","9876543210",0));
+//        u_repo.save(new User(1,"hapi@gmail.com","hari","piya",07-05-1999,"female","password","password",0));
 
         u_repo.findAll().forEach((country) -> {
             LOG.info("{}"+ country);

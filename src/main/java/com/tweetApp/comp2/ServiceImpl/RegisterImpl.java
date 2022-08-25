@@ -27,11 +27,11 @@ public class RegisterImpl implements RegisterService {
     UserRepo uRepo;
 
     @Override
-    public ResponseEntity<String> registerUSer(User user) {
+    public ResponseEntity<String> registerUser(User user) {
         try {
-            String username=user.getUsername();
+            String username=user.getEmail();
             LOG.info("adding new user with username {}", username);
-            Optional<User> existingUser = uRepo.findById(username);
+            Optional<User> existingUser = uRepo.findByEmail(username);
             LOG.info("checking whether there is an existing user with username {}", username);
             if (existingUser.isPresent()) {
                 LOG.error("user with this username already exists");
@@ -49,7 +49,7 @@ public class RegisterImpl implements RegisterService {
         }
 
         catch (Exception e) {
-            log.error("adding user with username {} failed", user.getUsername());
+            log.error("adding user with username {} failed", user.getEmail());
             throw new UnableToAddNewUserException();
         }
     }
