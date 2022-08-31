@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.text.SimpleDateFormat;
+import javax.persistence.GeneratedValue;
 import java.util.Date;
 
 @Getter
@@ -15,6 +15,7 @@ import java.util.Date;
 public class User {
 
     @Id
+    @GeneratedValue
     private int loginId;
     @Indexed(unique = true)
     private String email;
