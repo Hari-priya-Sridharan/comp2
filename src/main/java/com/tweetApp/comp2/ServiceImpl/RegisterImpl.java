@@ -14,7 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.management.relation.RoleNotFoundException;
+
 import java.util.Optional;
 
 @Service
@@ -37,7 +37,6 @@ public class RegisterImpl implements RegisterService {
                 LOG.error("user with this username already exists");
                 throw new UsernameExistsException(username);
             } else {
-
                 log.info("saving user details to the database");
                 uRepo.save(user);
                 return new ResponseEntity<>("user added successfully", HttpStatus.CREATED);
