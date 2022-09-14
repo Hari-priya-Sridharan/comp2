@@ -1,6 +1,8 @@
 package com.tweetApp.comp2.ExceptionHandler;
 
+import com.tweetApp.comp2.Exceptions.BadLoginCredentialsException;
 import com.tweetApp.comp2.Exceptions.UnableToAddNewUserException;
+import com.tweetApp.comp2.Exceptions.UnableToFetchUserException;
 import com.tweetApp.comp2.Exceptions.UsernameExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,8 @@ import java.util.Date;
 public class CustomisedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
     private static final String USERNAME_ALREADY_EXISTS_CREATE_NEW_ONE = "username already exists, create new one";
     private static final String AN_UNKNOWN_ERROR_OCCURED_WHILE_ADDING_NEW_USER = "an unknown error occured while adding new user";
+    private static final String AN_UNKNOWN_ERROR_OCCURED_WHILE_FETCHING_USER = "an unknown error occured while fetching user";
+    private static final String BAD_CREDENTIALS = "incorrect credentials";
 
     @ExceptionHandler(UnableToAddNewUserException.class)
     public final ResponseEntity<ExceptionResponse> handleUnableToAddNewUserException(UnableToAddNewUserException ex,
@@ -25,12 +29,25 @@ public class CustomisedResponseEntityExceptionHandler extends ResponseEntityExce
                 AN_UNKNOWN_ERROR_OCCURED_WHILE_ADDING_NEW_USER);
         return new ResponseEntity<>(exceptionResponse, HttpStatus.TEMPORARY_REDIRECT);
     }
+    @ExceptionHandler(UnableToFetchUserException.class)
+    public final ResponseEntity<ExceptionResponse> handleUnableToFetchUserException(UnableToFetchUserException ex,
+                                                                                     WebRequest request) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(),
+                AN_UNKNOWN_ERROR_OCCURED_WHILE_FETCHING_USER);
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.TEMPORARY_REDIRECT);
+    }
 
     @ExceptionHandler(UsernameExistsException.class)
     public final ResponseEntity<ExceptionResponse> handleUsernameExistsException(UsernameExistsException ex,
                                                                                  WebRequest request) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), USERNAME_ALREADY_EXISTS_CREATE_NEW_ONE);
         return new ResponseEntity<>(exceptionResponse, HttpStatus.CONFLICT);
+    }
+    @ExceptionHandler(BadLoginCredentialsException.class)
+    public final ResponseEntity<ExceptionResponse> handleBadLoginCredentialsException(BadLoginCredentialsException ex,
+                                                                                 WebRequest request) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), BAD_CREDENTIALS);
+        return new ResponseEntity<>(exceptionResponse,  HttpStatus.UNAUTHORIZED);
     }
 
 //    @ExceptionHandler(javax.validation.ConstraintViolationException.class)

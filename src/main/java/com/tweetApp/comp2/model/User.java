@@ -40,6 +40,22 @@ public class User {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "loginId=" + loginId +
+                ", email='" + email + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", dob=" + dob +
+                ", gender='" + gender + '\'' +
+                ", password='" + password + '\'' +
+                ", confirmPassword='" + confirmPassword + '\'' +
+                ", contactNumber='" + contactNumber + '\'' +
+                ", status=" + status +
+                '}';
+    }
+
     public User() {
 
     }

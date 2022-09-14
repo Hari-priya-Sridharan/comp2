@@ -31,9 +31,9 @@ public class RegisterImpl implements RegisterService {
         try {
             String username=user.getEmail();
             LOG.info("adding new user with username {}", username);
-            Optional<User> existingUser = uRepo.findByEmail(username);
+            User existingUser = uRepo.findByEmail(username);
             LOG.info("checking whether there is an existing user with username {}", username);
-            if (existingUser.isPresent()) {
+            if (existingUser!=null) {
                 LOG.error("user with this username already exists");
                 throw new UsernameExistsException(username);
             } else {
