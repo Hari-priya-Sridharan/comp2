@@ -1,8 +1,8 @@
-package com.tweetApp.comp2.Controller;
+package com.tweetApp.comp2.Controller.RegisterAndLogin;
 
 
 import com.tweetApp.comp2.DTO.LoginRequest;
-import com.tweetApp.comp2.ServiceImpl.LoginImpl;
+import com.tweetApp.comp2.ServiceImpl.RegisterAndLogin.LoginImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

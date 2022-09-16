@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.tweetApp.comp2.Exceptions.UnableToAddNewUserException;
 import com.tweetApp.comp2.Exceptions.UsernameExistsException;
 import com.tweetApp.comp2.model.User;
-import com.tweetApp.comp2.service.RegisterService;
+import com.tweetApp.comp2.service.RegisterandLogin.RegisterService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -18,13 +18,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.nio.charset.Charset;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.mongodb.internal.connection.tlschannel.util.Util.assertTrue;
-import static org.hamcrest.Matchers.instanceOf;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;

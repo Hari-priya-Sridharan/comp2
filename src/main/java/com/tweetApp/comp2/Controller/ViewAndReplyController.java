@@ -1,5 +1,6 @@
 package com.tweetApp.comp2.Controller;
 
+import com.tweetApp.comp2.Controller.RegisterAndLogin.regController;
 import com.tweetApp.comp2.ServiceImpl.ViewAndReplyImpl;
 import com.tweetApp.comp2.model.User;
 import org.apache.logging.log4j.LogManager;

@@ -17,25 +17,10 @@ import java.util.Date;
 @ControllerAdvice
 @RestController
 public class CustomisedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
-    private static final String USERNAME_ALREADY_EXISTS_CREATE_NEW_ONE = "username already exists, create new one";
-    private static final String AN_UNKNOWN_ERROR_OCCURED_WHILE_ADDING_NEW_USER = "an unknown error occured while adding new user";
-    private static final String AN_UNKNOWN_ERROR_OCCURED_WHILE_FETCHING_USER = "an unknown error occured while fetching user";
-    private static final String BAD_CREDENTIALS = "incorrect credentials";
+    private static final String USERNAME_ALREADY_EXISTS_CREATE_NEW_ONE = "Username already exists, create new one";
+    private static final String BAD_CREDENTIALS = "An unknown error occurred ";
 
-    @ExceptionHandler(UnableToAddNewUserException.class)
-    public final ResponseEntity<ExceptionResponse> handleUnableToAddNewUserException(UnableToAddNewUserException ex,
-                                                                                     WebRequest request) {
-        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(),
-                AN_UNKNOWN_ERROR_OCCURED_WHILE_ADDING_NEW_USER);
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.TEMPORARY_REDIRECT);
-    }
-    @ExceptionHandler(UnableToFetchUserException.class)
-    public final ResponseEntity<ExceptionResponse> handleUnableToFetchUserException(UnableToFetchUserException ex,
-                                                                                     WebRequest request) {
-        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(),
-                AN_UNKNOWN_ERROR_OCCURED_WHILE_FETCHING_USER);
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.TEMPORARY_REDIRECT);
-    }
+
 
     @ExceptionHandler(UsernameExistsException.class)
     public final ResponseEntity<ExceptionResponse> handleUsernameExistsException(UsernameExistsException ex,
@@ -46,7 +31,7 @@ public class CustomisedResponseEntityExceptionHandler extends ResponseEntityExce
     @ExceptionHandler(BadLoginCredentialsException.class)
     public final ResponseEntity<ExceptionResponse> handleBadLoginCredentialsException(BadLoginCredentialsException ex,
                                                                                  WebRequest request) {
-        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), BAD_CREDENTIALS);
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(),BAD_CREDENTIALS+ex.getMessage());
         return new ResponseEntity<>(exceptionResponse,  HttpStatus.UNAUTHORIZED);
     }
 
