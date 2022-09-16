@@ -14,6 +14,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/v1.0/tweets/register").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1.0/tweets/login").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1.0/tweets/{username}/forgot").permitAll()
                 .anyRequest().authenticated();
     }
 }

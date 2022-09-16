@@ -1,6 +1,5 @@
 package com.tweetApp.comp2.service.RegisterandLogin;
 
-import com.tweetApp.comp2.DTO.LoginRequest;
 import com.tweetApp.comp2.model.User;
 import org.springframework.http.ResponseEntity;
 

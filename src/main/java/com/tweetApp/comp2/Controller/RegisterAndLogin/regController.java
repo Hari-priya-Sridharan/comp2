@@ -10,17 +10,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
+@RequestMapping("/api/v1.0/tweets")
 public class regController {
     private static final Logger log = LogManager.getLogger(regController.class.getName());
     @Autowired
     RegisterImpl rService;
     @Autowired
     SequenceGeneratorServiceImpl sgService;
-    @PostMapping(value="/api/v1.0/tweets/register")
+    @PostMapping(value="/register")
     public ResponseEntity<String> registerUser(@RequestBody User user){
         user.setLoginId(sgService.getNextSequence("customSequences"));
         log.info("user id is set as : ",user.getLoginId());

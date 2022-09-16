@@ -1,13 +1,13 @@
 package com.tweetApp.comp2.DTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRequest {
+@Getter
+@Setter
+public class LoginDTO {
 
     private String username;
     private String password;

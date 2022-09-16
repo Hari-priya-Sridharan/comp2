@@ -3,7 +3,7 @@ package com.tweetApp.comp2.ServiceImpl.RegisterAndLogin;
 
 import com.tweetApp.comp2.Controller.RegisterAndLogin.regController;
 import com.tweetApp.comp2.Exceptions.BadLoginCredentialsException;
-import com.tweetApp.comp2.Exceptions.UnableToFetchUserException;
+import com.tweetApp.comp2.Exceptions.ErrorOccurred;
 import com.tweetApp.comp2.Repository.UserRepo;
 import com.tweetApp.comp2.model.User;
 import com.tweetApp.comp2.service.RegisterandLogin.LoginService;
@@ -28,7 +28,7 @@ public class LoginImpl implements LoginService {
             LOG.info("Fetching user details");
             return new ResponseEntity<>(this.findByUsername(username).toString(),  HttpStatus.OK);
         } catch (Exception e) {
-            throw new BadLoginCredentialsException("fetching user details");
+            throw new BadLoginCredentialsException("Invalid user details. Please check the input and try again");
         }
 
     }
@@ -41,7 +41,7 @@ public class LoginImpl implements LoginService {
              return u;
         }
         catch (Exception e) {
-            throw new UnableToFetchUserException();
+            throw new ErrorOccurred("fetching user details.");
         }
     }
 }

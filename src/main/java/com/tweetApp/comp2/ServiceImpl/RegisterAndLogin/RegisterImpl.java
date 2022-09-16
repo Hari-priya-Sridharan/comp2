@@ -2,7 +2,7 @@ package com.tweetApp.comp2.ServiceImpl.RegisterAndLogin;
 
 import com.tweetApp.comp2.Controller.RegisterAndLogin.regController;
 import com.tweetApp.comp2.Exceptions.BadLoginCredentialsException;
-import com.tweetApp.comp2.Exceptions.UnableToAddNewUserException;
+import com.tweetApp.comp2.Exceptions.ErrorOccurred;
 import com.tweetApp.comp2.Exceptions.UsernameExistsException;
 import com.tweetApp.comp2.Repository.UserRepo;
 import com.tweetApp.comp2.model.User;
@@ -47,7 +47,7 @@ public class RegisterImpl implements RegisterService {
 
         catch (Exception e) {
             log.error("adding user with username {} failed", user.getEmail());
-            throw new BadLoginCredentialsException("adding user.");
+            throw new ErrorOccurred("adding user.");
         }
     }
 }

@@ -3,7 +3,7 @@ package com.tweetApp.comp2.ControllerTests;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.tweetApp.comp2.Exceptions.UnableToAddNewUserException;
+import com.tweetApp.comp2.Exceptions.ErrorOccurred;
 import com.tweetApp.comp2.Exceptions.UsernameExistsException;
 import com.tweetApp.comp2.model.User;
 import com.tweetApp.comp2.service.RegisterandLogin.RegisterService;
@@ -57,7 +57,7 @@ public class RegisterControllerTests {
     @Test
     void testUserControllerUnableToAddNewUserException() throws Exception {
 
-        when(rService.registerUser(TESTUSER)).thenThrow(UnableToAddNewUserException.class);
+        when(rService.registerUser(TESTUSER)).thenThrow(ErrorOccurred.class);
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);

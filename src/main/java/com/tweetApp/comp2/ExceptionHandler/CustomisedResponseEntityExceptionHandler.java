@@ -1,8 +1,7 @@
 package com.tweetApp.comp2.ExceptionHandler;
 
 import com.tweetApp.comp2.Exceptions.BadLoginCredentialsException;
-import com.tweetApp.comp2.Exceptions.UnableToAddNewUserException;
-import com.tweetApp.comp2.Exceptions.UnableToFetchUserException;
+import com.tweetApp.comp2.Exceptions.ErrorOccurred;
 import com.tweetApp.comp2.Exceptions.UsernameExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,7 @@ import java.util.Date;
 @RestController
 public class CustomisedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
     private static final String USERNAME_ALREADY_EXISTS_CREATE_NEW_ONE = "Username already exists, create new one";
-    private static final String BAD_CREDENTIALS = "An unknown error occurred ";
+    private static final String ERROR_OCCURRED = "An unknown error occurred ";
 
 
 
@@ -31,7 +30,13 @@ public class CustomisedResponseEntityExceptionHandler extends ResponseEntityExce
     @ExceptionHandler(BadLoginCredentialsException.class)
     public final ResponseEntity<ExceptionResponse> handleBadLoginCredentialsException(BadLoginCredentialsException ex,
                                                                                  WebRequest request) {
-        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(),BAD_CREDENTIALS+ex.getMessage());
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(),ex.getMessage());
+        return new ResponseEntity<>(exceptionResponse,  HttpStatus.UNAUTHORIZED);
+    }
+    @ExceptionHandler(ErrorOccurred.class)
+    public final ResponseEntity<ExceptionResponse> handleErrorOccured(ErrorOccurred ex,
+                                                                                      WebRequest request) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(),ERROR_OCCURRED+ex.getMessage());
         return new ResponseEntity<>(exceptionResponse,  HttpStatus.UNAUTHORIZED);
     }
 
