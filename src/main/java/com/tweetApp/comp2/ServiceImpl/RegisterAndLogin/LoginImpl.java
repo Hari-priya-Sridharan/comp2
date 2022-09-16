@@ -1,12 +1,12 @@
-package com.tweetApp.comp2.ServiceImpl;
+package com.tweetApp.comp2.ServiceImpl.RegisterAndLogin;
 
 
-import com.tweetApp.comp2.Controller.regController;
+import com.tweetApp.comp2.Controller.RegisterAndLogin.regController;
 import com.tweetApp.comp2.Exceptions.BadLoginCredentialsException;
 import com.tweetApp.comp2.Exceptions.UnableToFetchUserException;
 import com.tweetApp.comp2.Repository.UserRepo;
 import com.tweetApp.comp2.model.User;
-import com.tweetApp.comp2.service.LoginService;
+import com.tweetApp.comp2.service.RegisterandLogin.LoginService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class LoginImpl implements LoginService {
             LOG.info("Fetching user details");
             return new ResponseEntity<>(this.findByUsername(username).toString(),  HttpStatus.OK);
         } catch (Exception e) {
-            throw new BadLoginCredentialsException();
+            throw new BadLoginCredentialsException("fetching user details");
         }
 
     }

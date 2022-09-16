@@ -1,11 +1,12 @@
-package com.tweetApp.comp2.ServiceImpl;
+package com.tweetApp.comp2.ServiceImpl.RegisterAndLogin;
 
-import com.tweetApp.comp2.Controller.regController;
+import com.tweetApp.comp2.Controller.RegisterAndLogin.regController;
+import com.tweetApp.comp2.Exceptions.BadLoginCredentialsException;
 import com.tweetApp.comp2.Exceptions.UnableToAddNewUserException;
 import com.tweetApp.comp2.Exceptions.UsernameExistsException;
 import com.tweetApp.comp2.Repository.UserRepo;
 import com.tweetApp.comp2.model.User;
-import com.tweetApp.comp2.service.RegisterService;
+import com.tweetApp.comp2.service.RegisterandLogin.RegisterService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,9 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -49,7 +47,7 @@ public class RegisterImpl implements RegisterService {
 
         catch (Exception e) {
             log.error("adding user with username {} failed", user.getEmail());
-            throw new UnableToAddNewUserException();
+            throw new BadLoginCredentialsException("adding user.");
         }
     }
 }

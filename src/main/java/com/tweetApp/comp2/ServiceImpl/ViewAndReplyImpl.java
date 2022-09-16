@@ -1,6 +1,6 @@
 package com.tweetApp.comp2.ServiceImpl;
 
-import com.tweetApp.comp2.Controller.regController;
+import com.tweetApp.comp2.Controller.RegisterAndLogin.regController;
 import com.tweetApp.comp2.Repository.UserRepo;
 import com.tweetApp.comp2.model.User;
 import com.tweetApp.comp2.service.ViewAndReplyService;
