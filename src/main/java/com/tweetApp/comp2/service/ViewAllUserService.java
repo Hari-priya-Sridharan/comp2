@@ -7,6 +7,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 
-public interface ViewAndReplyService {
+public interface ViewAllUserService {
     ResponseEntity<List<User>> viewAllUsers();
 }

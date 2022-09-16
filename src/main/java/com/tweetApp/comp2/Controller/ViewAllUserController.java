@@ -1,7 +1,7 @@
 package com.tweetApp.comp2.Controller;
 
 import com.tweetApp.comp2.Controller.RegisterAndLogin.regController;
-import com.tweetApp.comp2.ServiceImpl.ViewAndReplyImpl;
+import com.tweetApp.comp2.ServiceImpl.ViewAllUserImpl;
 import com.tweetApp.comp2.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,9 +14,9 @@ import java.util.List;
 
 
 @RestController
-public class ViewAndReplyController {
+public class ViewAllUserController {
     @Autowired
-    ViewAndReplyImpl vrService;
+    ViewAllUserImpl vrService;
     private static final Logger log = LogManager.getLogger(regController.class.getName());
     @GetMapping("/api/v1.0/tweets/users/all")
     public ResponseEntity<List<User>> getAllUsers(){
