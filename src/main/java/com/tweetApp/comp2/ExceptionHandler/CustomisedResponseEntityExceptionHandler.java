@@ -17,7 +17,7 @@ import java.util.Date;
 @RestController
 public class CustomisedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
     private static final String USERNAME_ALREADY_EXISTS_CREATE_NEW_ONE = "Username already exists, create new one";
-    private static final String ERROR_OCCURRED = "An unknown error occurred ";
+    private static final String ERROR_OCCURRED = "An unknown error occurred while ";
 
 
 
@@ -37,7 +37,7 @@ public class CustomisedResponseEntityExceptionHandler extends ResponseEntityExce
     public final ResponseEntity<ExceptionResponse> handleErrorOccured(ErrorOccurred ex,
                                                                                       WebRequest request) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(),ERROR_OCCURRED+ex.getMessage());
-        return new ResponseEntity<>(exceptionResponse,  HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(exceptionResponse,  HttpStatus.TEMPORARY_REDIRECT);
     }
 
 //    @ExceptionHandler(javax.validation.ConstraintViolationException.class)
