@@ -11,6 +11,7 @@ public class Comment {
 
     private String username;
     private String comment;
+    private String dateTime;
 
 }
 

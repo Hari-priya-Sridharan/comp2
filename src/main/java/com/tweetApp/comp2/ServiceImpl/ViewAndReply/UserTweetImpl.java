@@ -1,6 +1,7 @@
 package com.tweetApp.comp2.ServiceImpl.ViewAndReply;
 
 import com.tweetApp.comp2.Controller.RegisterAndLogin.regController;
+import com.tweetApp.comp2.DTO.Comment;
 import com.tweetApp.comp2.Exceptions.ErrorOccurred;
 import com.tweetApp.comp2.Exceptions.UserNotFoundException;
 import com.tweetApp.comp2.Repository.TweetRepo;
@@ -14,8 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -102,16 +101,16 @@ public class UserTweetImpl implements UserTweetService {
     }
 
     @Override
-    public ResponseEntity<String> deleteTweet(Tweet tweet) {
+    public ResponseEntity<String> deleteTweet(String username,int tweetId) {
         try{
-            if( uRepo.findByEmail(tweet.getUsername())==null) {
+            if( uRepo.findByEmail(username)==null) {
                 throw new UserNotFoundException("Username not found");
             }
-            Tweet t=tRepo.findByTweetId(tweet.getTweetId());
+            Tweet t=tRepo.findByTweetId(tweetId);
             if(t==null){
                 throw new ErrorOccurred("fetching the tweet from DB");
             }
-            tRepo.deleteByTweetId(tweet.getTweetId());
+            tRepo.deleteByTweetId(tweetId);
             LOG.info("Tweet Deleted");
             return new ResponseEntity<>("Tweet deleted successfully", HttpStatus.OK);
         }
@@ -129,12 +128,39 @@ public class UserTweetImpl implements UserTweetService {
     }
 
     @Override
-    public ResponseEntity<String> likeTweet(String username, Tweet tweet) {
+    public ResponseEntity<String> replyTweet(String username, int tweetId, Comment reply) {
         try{
-            if( uRepo.findByEmail(tweet.getUsername())==null) {
+            if( uRepo.findByEmail(username)==null) {
                 throw new UserNotFoundException("Username not found");
             }
-            Tweet t=tRepo.findByTweetId(tweet.getTweetId());
+            Tweet t=tRepo.findByTweetId(tweetId);
+            if(t==null){
+                throw new ErrorOccurred("fetching the tweet from DB");
+            }
+            List<Comment> comments=t.getComments();
+            comments.add(reply);
+            LOG.info("{} commented on {}'s tweet",username,t.getUsername());
+            t.setComments(comments);
+            tRepo.save(t);
+            LOG.info("Comment recorded successfully");
+            return new ResponseEntity<>("Comment recorded successfully", HttpStatus.OK);
+        }
+        catch (ErrorOccurred e){
+            throw e;
+        }
+        catch (Exception e){
+            LOG.error("Commenting on the tweet failed");
+            throw new ErrorOccurred(" commenting on the tweet");
+        }
+    }
+
+    @Override
+    public ResponseEntity<String> likeTweet(String username, int tweetId) {
+        try{
+            if( uRepo.findByEmail(username)==null) {
+                throw new UserNotFoundException("Username not found");
+            }
+            Tweet t=tRepo.findByTweetId(tweetId);
             if(t==null){
                 throw new ErrorOccurred("fetching the tweet from DB");
             }

@@ -1,6 +1,7 @@
 package com.tweetApp.comp2.Controller.ViewAndReply;
 
 import com.tweetApp.comp2.Controller.RegisterAndLogin.regController;
+import com.tweetApp.comp2.DTO.Comment;
 import com.tweetApp.comp2.ServiceImpl.RegisterAndLogin.RegisterImpl;
 import com.tweetApp.comp2.ServiceImpl.SequenceGeneratorServiceImpl;
 import com.tweetApp.comp2.ServiceImpl.ViewAndReply.UserTweetImpl;
@@ -46,17 +47,21 @@ public class UserTweetController {
         return uService.updateTweet(tweet);
     }
     @DeleteMapping(value ="/delete/{id}" )
-    public ResponseEntity<String> deleteTweet(@PathVariable("username") String username,@PathVariable("id") int tweetID,@RequestBody Tweet tweet){
+    public ResponseEntity<String> deleteTweet(@PathVariable("username") String username,@PathVariable("id") int tweetID){
         LOG.info("Deleting the tweet");
-        tweet.setTweetId(tweetID);
-        tweet.setUsername(username);
-        return uService.deleteTweet(tweet);
+        return uService.deleteTweet(username,tweetID);
     }
     @PutMapping(value ="/like/{id}" )
-    public ResponseEntity<String> likeTweet(@PathVariable("username") String username,@PathVariable("id") int tweetID,@RequestBody Tweet tweet){
+    public ResponseEntity<String> likeTweet(@PathVariable("username") String username,@PathVariable("id") int tweetID){
         LOG.info("Updating the tweet");
-        tweet.setTweetId(tweetID);
-        return uService.likeTweet(username,tweet);
+        return uService.likeTweet(username,tweetID);
+    }
+    @PostMapping(value ="/reply/{id}" )
+    public ResponseEntity<String> replyTweet(@PathVariable("username") String username, @PathVariable("id") int tweetID,@RequestBody Comment reply){
+        LOG.info("Updating the tweet");
+        reply.setUsername(username);
+        reply.setDateTime(String.valueOf(new Date()));
+        return uService.replyTweet(username,tweetID,reply);
     }
 
 }
