@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface UserRepo extends MongoRepository<User, String> {
    User findByEmail(String username);
-   @Query("{'email': /?username/}")
+//   @Query("{'email': /?username/}")
+//   public List<User> searchUser(String username);
+   @Query("{ 'email':{$regex:?0,$options:'i'}}")
    public List<User> searchUser(String username);
 }

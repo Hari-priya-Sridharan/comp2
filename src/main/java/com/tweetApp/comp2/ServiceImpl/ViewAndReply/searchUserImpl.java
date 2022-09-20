@@ -5,6 +5,8 @@ import com.tweetApp.comp2.Repository.UserRepo;
 import com.tweetApp.comp2.model.User;
 import com.tweetApp.comp2.service.ViewAndReply.searchUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ public class searchUserImpl implements searchUserService {
     @Override
     public ResponseEntity<?> findUser(String username) {
         try{
+
             List<User> users= uRepo.searchUser(username);
             System.out.println(users);
             if(users.size()>0){
