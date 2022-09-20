@@ -2,6 +2,7 @@ package com.tweetApp.comp2.ExceptionHandler;
 
 import com.tweetApp.comp2.Exceptions.BadLoginCredentialsException;
 import com.tweetApp.comp2.Exceptions.ErrorOccurred;
+import com.tweetApp.comp2.Exceptions.UserNotFoundException;
 import com.tweetApp.comp2.Exceptions.UsernameExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,12 +28,19 @@ public class CustomisedResponseEntityExceptionHandler extends ResponseEntityExce
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), USERNAME_ALREADY_EXISTS_CREATE_NEW_ONE);
         return new ResponseEntity<>(exceptionResponse, HttpStatus.CONFLICT);
     }
+    @ExceptionHandler(UserNotFoundException.class)
+    public final ResponseEntity<ExceptionResponse> handleUserNotFoundException(UserNotFoundException ex,
+                                                                                 WebRequest request) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(),ex.getMessage());
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
     @ExceptionHandler(BadLoginCredentialsException.class)
     public final ResponseEntity<ExceptionResponse> handleBadLoginCredentialsException(BadLoginCredentialsException ex,
                                                                                  WebRequest request) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(),ex.getMessage());
         return new ResponseEntity<>(exceptionResponse,  HttpStatus.UNAUTHORIZED);
     }
+
     @ExceptionHandler(ErrorOccurred.class)
     public final ResponseEntity<ExceptionResponse> handleErrorOccured(ErrorOccurred ex,
                                                                                       WebRequest request) {
