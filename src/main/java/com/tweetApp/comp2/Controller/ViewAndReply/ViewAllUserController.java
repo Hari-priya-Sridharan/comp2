@@ -16,11 +16,11 @@ import java.util.List;
 @RestController
 public class ViewAllUserController {
     @Autowired
-    ViewAllUserImpl vrService;
-    private static final Logger log = LogManager.getLogger(regController.class.getName());
+    ViewAllUserImpl vService;
+    private static final Logger LOG = LogManager.getLogger(regController.class.getName());
     @GetMapping("/api/v1.0/tweets/users/all")
     public ResponseEntity<List<User>> getAllUsers(){
-        log.info("Got all users");
-        return vrService.viewAllUsers();
+        LOG.info("Got all users");
+        return vService.viewAllUsers();
     }
 }
