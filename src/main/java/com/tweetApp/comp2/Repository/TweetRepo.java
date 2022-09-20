@@ -15,4 +15,6 @@ public interface TweetRepo extends MongoRepository<Tweet, String> {
     List<Tweet> findAllByUsername(String username);
 
     Tweet findByTweetId(int tweetID);
+
+    void deleteByTweetId(int tweetId);
 }

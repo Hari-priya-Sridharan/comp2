@@ -9,4 +9,8 @@ public interface UserTweetService {
     ResponseEntity<String> postTweet(Tweet tweet);
 
     ResponseEntity<String> updateTweet(Tweet tweet);
+
+    ResponseEntity<String> deleteTweet(Tweet tweet);
+
+    ResponseEntity<String> likeTweet(String username, Tweet tweet);
 }

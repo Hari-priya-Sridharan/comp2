@@ -15,7 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserTweetImpl implements UserTweetService {
@@ -53,11 +55,20 @@ public class UserTweetImpl implements UserTweetService {
     public ResponseEntity<String> postTweet(Tweet tweet) {
         try {
             String username = tweet.getUsername();
+            if( uRepo.findByEmail(username)==null) {
+                throw new UserNotFoundException("Username not found");
+            }
             LOG.info("Posting the tweet as {}", username);
-            tweet.setTweetDateTime(String.valueOf(new Date()));
             tRepo.save(tweet);
             return new ResponseEntity<>("Tweet posted successfully", HttpStatus.CREATED);
-        } catch (Exception e) {
+        }
+        catch(UserNotFoundException e){
+            throw e;
+        }
+        catch (ErrorOccurred e){
+            throw e;
+        }
+        catch (Exception e) {
             LOG.error("Posting the tweet failed", tweet.getUsername());
             throw new ErrorOccurred(" posting the tweet.");
         }
@@ -66,19 +77,81 @@ public class UserTweetImpl implements UserTweetService {
     @Override
     public ResponseEntity<String> updateTweet(Tweet tweet) {
        try{
+           if( uRepo.findByEmail(tweet.getUsername())==null) {
+               throw new UserNotFoundException("Username not found");
+           }
            Tweet t=tRepo.findByTweetId(tweet.getTweetId());
            if(t==null){
                throw new ErrorOccurred("fetching the tweet from DB");
            }
            t.setTweetText(tweet.getTweetText());
-           t.setTweetDateTime(String.valueOf(new Date()));
            tRepo.save(t);
            LOG.info("Tweet updated");
            return new ResponseEntity<>("Tweet updated successfully", HttpStatus.OK);
+       }
+       catch(UserNotFoundException e){
+           throw e;
+       }
+       catch (ErrorOccurred e){
+           throw e;
        }
        catch(Exception e){
            LOG.error("Updating the tweet failed", tweet.getUsername());
            throw new ErrorOccurred(" updating the tweet.");
        }
+    }
+
+    @Override
+    public ResponseEntity<String> deleteTweet(Tweet tweet) {
+        try{
+            if( uRepo.findByEmail(tweet.getUsername())==null) {
+                throw new UserNotFoundException("Username not found");
+            }
+            Tweet t=tRepo.findByTweetId(tweet.getTweetId());
+            if(t==null){
+                throw new ErrorOccurred("fetching the tweet from DB");
+            }
+            tRepo.deleteByTweetId(tweet.getTweetId());
+            LOG.info("Tweet Deleted");
+            return new ResponseEntity<>("Tweet deleted successfully", HttpStatus.OK);
+        }
+        catch(UserNotFoundException e){
+            throw e;
+        }
+        catch (ErrorOccurred e){
+            throw e;
+        }
+        catch (Exception e){
+            LOG.error("Deleting the tweet failed");
+            throw new ErrorOccurred(" deleting the tweet");
+        }
+
+    }
+
+    @Override
+    public ResponseEntity<String> likeTweet(String username, Tweet tweet) {
+        try{
+            if( uRepo.findByEmail(tweet.getUsername())==null) {
+                throw new UserNotFoundException("Username not found");
+            }
+            Tweet t=tRepo.findByTweetId(tweet.getTweetId());
+            if(t==null){
+                throw new ErrorOccurred("fetching the tweet from DB");
+            }
+            Set<String> likes=t.getLikes();
+            likes.add(username);
+            LOG.info("{} liked {}'s tweet",username,t.getUsername());
+            t.setLikes(likes);
+            tRepo.save(t);
+            LOG.info("Like recorded successfully");
+            return new ResponseEntity<>("Like recorded successfully", HttpStatus.OK);
+        }
+        catch (ErrorOccurred e){
+            throw e;
+        }
+        catch (Exception e){
+            LOG.error("Liking the tweet failed");
+            throw new ErrorOccurred(" liking the tweet");
+        }
     }
 }

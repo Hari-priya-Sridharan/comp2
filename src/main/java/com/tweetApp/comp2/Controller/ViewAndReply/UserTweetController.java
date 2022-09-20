@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping("/api/v1.0/tweets/{username}")
 public class UserTweetController {
@@ -31,6 +33,7 @@ public class UserTweetController {
     public ResponseEntity<String> postTweet(@PathVariable("username") String username,@RequestBody Tweet tweet){
         tweet.setTweetId(sgService.getNextSequence("customSequences"));
         tweet.setUsername(username);
+        tweet.setTweetDateTime(String.valueOf(new Date()));
         LOG.info("Tweet id is set as : ",tweet.getTweetId());
         return uService.postTweet(tweet);
     }
@@ -39,6 +42,21 @@ public class UserTweetController {
         LOG.info("Updating the tweet");
         tweet.setTweetId(tweetID);
         tweet.setUsername(username);
+        tweet.setTweetDateTime(String.valueOf(new Date()));
         return uService.updateTweet(tweet);
     }
+    @DeleteMapping(value ="/delete/{id}" )
+    public ResponseEntity<String> deleteTweet(@PathVariable("username") String username,@PathVariable("id") int tweetID,@RequestBody Tweet tweet){
+        LOG.info("Deleting the tweet");
+        tweet.setTweetId(tweetID);
+        tweet.setUsername(username);
+        return uService.deleteTweet(tweet);
+    }
+    @PutMapping(value ="/like/{id}" )
+    public ResponseEntity<String> likeTweet(@PathVariable("username") String username,@PathVariable("id") int tweetID,@RequestBody Tweet tweet){
+        LOG.info("Updating the tweet");
+        tweet.setTweetId(tweetID);
+        return uService.likeTweet(username,tweet);
+    }
+
 }

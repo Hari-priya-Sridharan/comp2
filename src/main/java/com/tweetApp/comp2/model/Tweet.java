@@ -7,7 +7,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.GeneratedValue;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @NoArgsConstructor
@@ -23,7 +25,7 @@ public class Tweet {
     private String username;
     private String tweetText;
     private String tweetDateTime;
-    private List<String> likes = new ArrayList<>();
+    private Set<String> likes = new LinkedHashSet<>();
     private List<Comment> comments = new ArrayList<>();
 
 }
