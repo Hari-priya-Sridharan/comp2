@@ -1,6 +1,7 @@
 package com.tweetApp.comp2.ServiceImpl.ViewAndReply;
 
 import com.tweetApp.comp2.Controller.RegisterAndLogin.regController;
+import com.tweetApp.comp2.Exceptions.ErrorOccurred;
 import com.tweetApp.comp2.Repository.UserRepo;
 import com.tweetApp.comp2.model.User;
 import com.tweetApp.comp2.service.ViewAndReply.ViewAllUserService;
@@ -17,13 +18,24 @@ import java.util.List;
 public class ViewAllUserImpl implements ViewAllUserService {
     @Autowired
     UserRepo uRepo;
-    private static final Logger log = LogManager.getLogger(regController.class.getName());
+    private static final Logger LOG = LogManager.getLogger(regController.class.getName());
     @Override
-    public ResponseEntity<List<User>> viewAllUsers() {
+    public ResponseEntity<?> viewAllUsers() {
+        try{
+            LOG.info("Fetching all users");
+            List<User> users= uRepo.findAll();
+            if(users.size()>0){
+                LOG.info("Fetched Users :",users);
+                return new ResponseEntity<>(users, HttpStatus.OK);
+            }
+            else{
+                LOG.info("Fetched list of users is null");
+                return new ResponseEntity<>("No users yet", HttpStatus.OK);
+            }
+        }
+        catch (Exception e){
+            throw new ErrorOccurred("fetching all the Users\n"+e);
+        }
 
-        log.info("Fetching all users");
-        List<User> users= uRepo.findAll();
-        log.info("Fetched Users :",users);
-        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 }
