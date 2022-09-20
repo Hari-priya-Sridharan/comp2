@@ -13,4 +13,6 @@ public interface TweetRepo extends MongoRepository<Tweet, String> {
     List<Tweet> findByOrderByTweetDateTimeDesc();
 
     List<Tweet> findAllByUsername(String username);
+
+    Tweet findByTweetId(int tweetID);
 }

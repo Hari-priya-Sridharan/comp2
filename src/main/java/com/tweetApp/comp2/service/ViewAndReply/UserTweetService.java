@@ -7,4 +7,6 @@ public interface UserTweetService {
     ResponseEntity<?> getUserTweets(String username);
 
     ResponseEntity<String> postTweet(Tweet tweet);
+
+    ResponseEntity<String> updateTweet(Tweet tweet);
 }

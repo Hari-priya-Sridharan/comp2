@@ -13,26 +13,32 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1.0/tweets")
+@RequestMapping("/api/v1.0/tweets/{username}")
 public class UserTweetController {
     @Autowired
     UserTweetImpl uService;
     @Autowired
     SequenceGeneratorServiceImpl sgService;
     private static final Logger LOG = LogManager.getLogger(regController.class.getName());
-    @GetMapping("/{username}")
+    @GetMapping("")
     public ResponseEntity<?> getUserTweets(@PathVariable("username") String username){
         LOG.info("Fetching tweets of user: {} ",username);
         return uService.getUserTweets(username);
     }
 
 
-    @PostMapping(value="/{username}/add")
+    @PostMapping(value="/add")
     public ResponseEntity<String> postTweet(@PathVariable("username") String username,@RequestBody Tweet tweet){
         tweet.setTweetId(sgService.getNextSequence("customSequences"));
         tweet.setUsername(username);
-        LOG.info("user id is set as : ",tweet.getTweetId());
-        LOG.info("user status is set as non-logged");
+        LOG.info("Tweet id is set as : ",tweet.getTweetId());
         return uService.postTweet(tweet);
+    }
+    @PutMapping(value ="/update/{id}" )
+    public ResponseEntity<String> updateTweet(@PathVariable("username") String username,@PathVariable("id") int tweetID,@RequestBody Tweet tweet){
+        LOG.info("Updating the tweet");
+        tweet.setTweetId(tweetID);
+        tweet.setUsername(username);
+        return uService.updateTweet(tweet);
     }
 }

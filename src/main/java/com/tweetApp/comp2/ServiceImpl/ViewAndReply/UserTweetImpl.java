@@ -3,18 +3,15 @@ package com.tweetApp.comp2.ServiceImpl.ViewAndReply;
 import com.tweetApp.comp2.Controller.RegisterAndLogin.regController;
 import com.tweetApp.comp2.Exceptions.ErrorOccurred;
 import com.tweetApp.comp2.Exceptions.UserNotFoundException;
-import com.tweetApp.comp2.Exceptions.UsernameExistsException;
 import com.tweetApp.comp2.Repository.TweetRepo;
 import com.tweetApp.comp2.Repository.UserRepo;
 import com.tweetApp.comp2.model.Tweet;
-import com.tweetApp.comp2.model.User;
 import com.tweetApp.comp2.service.ViewAndReply.UserTweetService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -56,14 +53,32 @@ public class UserTweetImpl implements UserTweetService {
     public ResponseEntity<String> postTweet(Tweet tweet) {
         try {
             String username = tweet.getUsername();
-            LOG.info("adding new user with username {}", username);
-            LOG.info("saving user details to the database");
+            LOG.info("Posting the tweet as {}", username);
             tweet.setTweetDateTime(String.valueOf(new Date()));
             tRepo.save(tweet);
-            return new ResponseEntity<>("user added successfully", HttpStatus.CREATED);
+            return new ResponseEntity<>("Tweet posted successfully", HttpStatus.CREATED);
         } catch (Exception e) {
-            LOG.error("adding user with username {} failed", tweet.getUsername());
-            throw new ErrorOccurred(" adding user.");
+            LOG.error("Posting the tweet failed", tweet.getUsername());
+            throw new ErrorOccurred(" posting the tweet.");
         }
+    }
+
+    @Override
+    public ResponseEntity<String> updateTweet(Tweet tweet) {
+       try{
+           Tweet t=tRepo.findByTweetId(tweet.getTweetId());
+           if(t==null){
+               throw new ErrorOccurred("fetching the tweet from DB");
+           }
+           t.setTweetText(tweet.getTweetText());
+           t.setTweetDateTime(String.valueOf(new Date()));
+           tRepo.save(t);
+           LOG.info("Tweet updated");
+           return new ResponseEntity<>("Tweet updated successfully", HttpStatus.OK);
+       }
+       catch(Exception e){
+           LOG.error("Updating the tweet failed", tweet.getUsername());
+           throw new ErrorOccurred(" updating the tweet.");
+       }
     }
 }
