@@ -19,7 +19,7 @@ public class Tweet {
 
     @Id
     @GeneratedValue
-    private String tweetId;
+    private int tweetId;
     private String username;
     private String tweetText;
     private String tweetDateTime;

@@ -3,6 +3,7 @@ package com.tweetApp.comp2.ServiceImpl.ViewAndReply;
 import com.tweetApp.comp2.Controller.RegisterAndLogin.regController;
 import com.tweetApp.comp2.Exceptions.ErrorOccurred;
 import com.tweetApp.comp2.Exceptions.UserNotFoundException;
+import com.tweetApp.comp2.Exceptions.UsernameExistsException;
 import com.tweetApp.comp2.Repository.TweetRepo;
 import com.tweetApp.comp2.Repository.UserRepo;
 import com.tweetApp.comp2.model.Tweet;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -47,6 +49,21 @@ public class UserTweetImpl implements UserTweetService {
         }
         catch (Exception e){
             throw new ErrorOccurred("fetching all the Users\n"+e);
+        }
+    }
+
+    @Override
+    public ResponseEntity<String> postTweet(Tweet tweet) {
+        try {
+            String username = tweet.getUsername();
+            LOG.info("adding new user with username {}", username);
+            LOG.info("saving user details to the database");
+            tweet.setTweetDateTime(String.valueOf(new Date()));
+            tRepo.save(tweet);
+            return new ResponseEntity<>("user added successfully", HttpStatus.CREATED);
+        } catch (Exception e) {
+            LOG.error("adding user with username {} failed", tweet.getUsername());
+            throw new ErrorOccurred(" adding user.");
         }
     }
 }
