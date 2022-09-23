@@ -23,10 +23,10 @@ public class LoginImpl implements LoginService {
 
 
 
-    public ResponseEntity<String> authenticateUser(String username,String password) {
+    public ResponseEntity<?> authenticateUser(String username, String password) {
         try {
             LOG.info("Fetching user details");
-            return new ResponseEntity<>(this.findByUsername(username).toString(),  HttpStatus.OK);
+            return new ResponseEntity<>(this.findByUsername(username),  HttpStatus.OK);
         } catch (Exception e) {
             throw new BadLoginCredentialsException("Invalid user details. Please check the input and try again");
         }

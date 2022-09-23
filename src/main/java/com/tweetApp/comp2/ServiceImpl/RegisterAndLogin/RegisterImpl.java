@@ -1,7 +1,6 @@
 package com.tweetApp.comp2.ServiceImpl.RegisterAndLogin;
 
 import com.tweetApp.comp2.Controller.RegisterAndLogin.regController;
-import com.tweetApp.comp2.Exceptions.BadLoginCredentialsException;
 import com.tweetApp.comp2.Exceptions.ErrorOccurred;
 import com.tweetApp.comp2.Exceptions.UsernameExistsException;
 import com.tweetApp.comp2.Repository.UserRepo;
@@ -25,7 +24,7 @@ public class RegisterImpl implements RegisterService {
     UserRepo uRepo;
 
     @Override
-    public ResponseEntity<String> registerUser(User user) {
+    public ResponseEntity<?> registerUser(User user) {
         try {
             String username=user.getEmail();
             LOG.info("adding new user with username {}", username);
@@ -37,7 +36,7 @@ public class RegisterImpl implements RegisterService {
             } else {
                 log.info("saving user details to the database");
                 uRepo.save(user);
-                return new ResponseEntity<>("user added successfully", HttpStatus.CREATED);
+                return new ResponseEntity<>(HttpStatus.CREATED);
 
             }
 

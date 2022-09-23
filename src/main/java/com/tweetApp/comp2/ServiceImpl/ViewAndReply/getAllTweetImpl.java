@@ -33,7 +33,7 @@ public class getAllTweetImpl implements getAllTweetService {
             }
             else{
                 LOG.info("Fetched list of tweet is null");
-                return new ResponseEntity<>("No tweets yet.", HttpStatus.OK);
+                return new ResponseEntity<>( HttpStatus.OK);
             }
         }
         catch (Exception e){
