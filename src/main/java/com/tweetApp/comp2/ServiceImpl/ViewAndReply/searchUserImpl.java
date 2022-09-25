@@ -28,7 +28,7 @@ public class searchUserImpl implements searchUserService {
                 return new ResponseEntity<List<User>>(users, HttpStatus.OK);
             }
             else{
-                return new ResponseEntity<String>("No user found", HttpStatus.OK);
+                return new ResponseEntity<String>( HttpStatus.OK);
             }
         }
         catch (Exception e){

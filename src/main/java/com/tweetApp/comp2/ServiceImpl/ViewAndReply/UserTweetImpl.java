@@ -39,7 +39,7 @@ public class UserTweetImpl implements UserTweetService {
             }
             else{
                 LOG.info("Fetched list of tweets is null");
-                return new ResponseEntity<>("No tweet yet by the user", HttpStatus.OK);
+                return new ResponseEntity<>( HttpStatus.OK);
             }
         }
         catch(UserNotFoundException e){
@@ -59,7 +59,7 @@ public class UserTweetImpl implements UserTweetService {
             }
             LOG.info("Posting the tweet as {}", username);
             tRepo.save(tweet);
-            return new ResponseEntity<>("Tweet posted successfully", HttpStatus.CREATED);
+            return new ResponseEntity<>( HttpStatus.CREATED);
         }
         catch(UserNotFoundException e){
             throw e;
@@ -86,7 +86,7 @@ public class UserTweetImpl implements UserTweetService {
            t.setTweetText(tweet.getTweetText());
            tRepo.save(t);
            LOG.info("Tweet updated");
-           return new ResponseEntity<>("Tweet updated successfully", HttpStatus.OK);
+           return new ResponseEntity<>( HttpStatus.OK);
        }
        catch(UserNotFoundException e){
            throw e;
@@ -112,7 +112,7 @@ public class UserTweetImpl implements UserTweetService {
             }
             tRepo.deleteByTweetId(tweetId);
             LOG.info("Tweet Deleted");
-            return new ResponseEntity<>("Tweet deleted successfully", HttpStatus.OK);
+            return new ResponseEntity<>( HttpStatus.OK);
         }
         catch(UserNotFoundException e){
             throw e;
@@ -143,7 +143,7 @@ public class UserTweetImpl implements UserTweetService {
             t.setComments(comments);
             tRepo.save(t);
             LOG.info("Comment recorded successfully");
-            return new ResponseEntity<>("Comment recorded successfully", HttpStatus.OK);
+            return new ResponseEntity<>( HttpStatus.OK);
         }
         catch (ErrorOccurred e){
             throw e;
@@ -170,7 +170,7 @@ public class UserTweetImpl implements UserTweetService {
             t.setLikes(likes);
             tRepo.save(t);
             LOG.info("Like recorded successfully");
-            return new ResponseEntity<>("Like recorded successfully", HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (ErrorOccurred e){
             throw e;

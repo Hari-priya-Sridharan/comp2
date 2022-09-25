@@ -30,7 +30,7 @@ public class ViewAllUserImpl implements ViewAllUserService {
             }
             else{
                 LOG.info("Fetched list of users is null");
-                return new ResponseEntity<>("No users yet", HttpStatus.OK);
+                return new ResponseEntity<>( HttpStatus.OK);
             }
         }
         catch (Exception e){

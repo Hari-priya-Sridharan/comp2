@@ -24,13 +24,13 @@ public class ForgotPasswordImpl implements ForgotPasswordService {
 
         try {
             User user = uRepo.findByEmail(pDTO.getUsername());
-            if (user.getContactNumber().equalsIgnoreCase(pDTO.getContact())) {
+            if (user.getContactNum().equalsIgnoreCase(pDTO.getContact())) {
                 LOG.info("Contact details are verified.");
                 user.setPassword(pDTO.getNewPassword());
                 user.setConfirmPassword(pDTO.getNewPassword());
                 LOG.info("Password changed successfully");
                 uRepo.save(user);
-                return new ResponseEntity<>("Password changed successfully", HttpStatus.OK);
+                return new ResponseEntity<>( HttpStatus.OK);
             }
             else{
                 throw new BadLoginCredentialsException("Contact Details Mismatch");

@@ -51,7 +51,7 @@ public class UserTweetController {
         LOG.info("Deleting the tweet");
         return uService.deleteTweet(username,tweetID);
     }
-    @PutMapping(value ="/like/{id}" )
+    @PostMapping(value ="/like/{id}" )
     public ResponseEntity<String> likeTweet(@PathVariable("username") String username,@PathVariable("id") int tweetID){
         LOG.info("Updating the tweet");
         return uService.likeTweet(username,tweetID);

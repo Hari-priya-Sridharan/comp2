@@ -17,7 +17,7 @@ public class LoginController {
     LoginImpl lService;
     private static final Logger LOG = LogManager.getLogger(regController.class.getName());
 
-    @GetMapping(value = "/login")
+    @PostMapping(value = "/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO loginRequest) {
 
         String username = loginRequest.getUsername();
