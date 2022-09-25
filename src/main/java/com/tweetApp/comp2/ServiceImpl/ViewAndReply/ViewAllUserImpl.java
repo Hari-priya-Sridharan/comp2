@@ -25,7 +25,7 @@ public class ViewAllUserImpl implements ViewAllUserService {
             LOG.info("Fetching all users");
             List<User> users= uRepo.findAll();
             if(users.size()>0){
-                LOG.info("Fetched Users :",users);
+                LOG.info("Fetched Users : {}",users);
                 return new ResponseEntity<>(users, HttpStatus.OK);
             }
             else{
