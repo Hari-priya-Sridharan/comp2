@@ -155,6 +155,19 @@ public class UserTweetImpl implements UserTweetService {
     }
 
     @Override
+    public ResponseEntity<?> fetchTweets(int tweetID) {
+        try{
+            Tweet tweet=tRepo.findByTweetId(tweetID);
+
+            return new ResponseEntity<>( tweet,HttpStatus.OK);
+        }
+        catch(Exception e){
+            LOG.error("Fetching tweet failed");
+            throw new ErrorOccurred(" fetching the tweet.");
+        }
+    }
+
+    @Override
     public ResponseEntity<String> likeTweet(String username, int tweetId) {
         try{
             if( uRepo.findByEmail(username)==null) {

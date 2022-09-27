@@ -16,4 +16,6 @@ public interface UserTweetService {
     ResponseEntity<String> deleteTweet(String username, int tweetID);
 
     ResponseEntity<String> replyTweet(String username, int tweetID, Comment reply);
+
+    ResponseEntity<?> fetchTweets(int tweetID);
 }

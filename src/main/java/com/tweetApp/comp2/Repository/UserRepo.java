@@ -1,5 +1,6 @@
 package com.tweetApp.comp2.Repository;
 
+import com.tweetApp.comp2.model.Tweet;
 import com.tweetApp.comp2.model.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
@@ -15,5 +16,6 @@ public interface UserRepo extends MongoRepository<User, String> {
 
    @Query("{ 'email':{$regex:?0,$options:'i'}}")
    public List<User> searchUser(String username);
+
 
 }

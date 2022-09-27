@@ -17,7 +17,7 @@ public class ForgotPasswordController {
 
 
 
-    @GetMapping(value = "/{username}/forgot")
+    @PostMapping(value = "/{username}/forgot")
     public ResponseEntity<?> updatePassword(@PathVariable("username") String username, @RequestBody ForgotPasswordDTO pDTO) {
         pDTO.setUsername(username);
         LOG.info("Password change initiated");

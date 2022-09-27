@@ -26,9 +26,15 @@ public class LoginImpl implements LoginService {
     public ResponseEntity<?> authenticateUser(String username, String password) {
         try {
             LOG.info("Fetching user details");
-            return new ResponseEntity<>(this.findByUsername(username),  HttpStatus.OK);
-        } catch (Exception e) {
-            throw new BadLoginCredentialsException("Invalid user details. Please check the input and try again");
+            User user=this.findByUsername(username);
+            if(password.equals(user.getPassword())){
+                return new ResponseEntity<>(user,  HttpStatus.OK);
+            }
+           else{
+               throw new BadLoginCredentialsException("Invalid user details. Please check the input and try again");
+            }
+        } catch (BadLoginCredentialsException e) {
+            throw e;
         }
 
     }

@@ -17,6 +17,7 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/api/v1.0/tweets/{username}")
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserTweetController {
     @Autowired
     UserTweetImpl uService;
@@ -45,6 +46,11 @@ public class UserTweetController {
         tweet.setUsername(username);
         tweet.setTweetDateTime(String.valueOf(new Date()));
         return uService.updateTweet(tweet);
+    }
+    @GetMapping(value ="/{id}")
+    public ResponseEntity<?> getTweets(@PathVariable("id") int tweetID){
+        LOG.info("Fetching tweets");
+        return uService.fetchTweets(tweetID);
     }
     @DeleteMapping(value ="/delete/{id}" )
     public ResponseEntity<String> deleteTweet(@PathVariable("username") String username,@PathVariable("id") int tweetID){
