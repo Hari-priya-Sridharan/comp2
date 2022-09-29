@@ -1,5 +1,6 @@
 package com.tweetApp.comp2.ServiceImpl.RegisterAndLogin;
 
+import com.tweetApp.comp2.Config.KafkaConsumerConfig;
 import com.tweetApp.comp2.Controller.RegisterAndLogin.regController;
 import com.tweetApp.comp2.DTO.ForgotPasswordDTO;
 import com.tweetApp.comp2.Exceptions.BadLoginCredentialsException;
@@ -18,6 +19,9 @@ import org.springframework.stereotype.Service;
 public class ForgotPasswordImpl implements ForgotPasswordService {
     @Autowired
     UserRepo uRepo;
+    @Autowired
+    private KafkaConsumerConfig consumer;
+
     private static final Logger LOG = LogManager.getLogger(regController.class.getName());
     @Override
     public ResponseEntity<?> updatePassword(ForgotPasswordDTO pDTO) {
@@ -29,6 +33,7 @@ public class ForgotPasswordImpl implements ForgotPasswordService {
                 user.setPassword(pDTO.getNewPassword());
                 user.setConfirmPassword(pDTO.getNewPassword());
                 LOG.info("Password changed successfully");
+                consumer.consume("Password changed successfully");
                 uRepo.save(user);
                 return new ResponseEntity<>( HttpStatus.OK);
             }

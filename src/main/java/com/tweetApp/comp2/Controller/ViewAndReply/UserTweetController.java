@@ -39,10 +39,10 @@ public class UserTweetController {
         LOG.info("Tweet id is set as : ",tweet.getTweetId());
         return uService.postTweet(tweet);
     }
-    @PutMapping(value ="/update/{id}" )
-    public ResponseEntity<String> updateTweet(@PathVariable("username") String username,@PathVariable("id") int tweetID,@RequestBody Tweet tweet){
+    @PutMapping(value ="/update" )
+    public ResponseEntity<String> updateTweet(@PathVariable("username") String username,@RequestBody Tweet tweet){
         LOG.info("Updating the tweet");
-        tweet.setTweetId(tweetID);
+//        tweet.setTweetId(tweetID);
         tweet.setUsername(username);
         tweet.setTweetDateTime(String.valueOf(new Date()));
         return uService.updateTweet(tweet);

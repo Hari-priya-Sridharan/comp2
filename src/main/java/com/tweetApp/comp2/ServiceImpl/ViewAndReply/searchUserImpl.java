@@ -1,5 +1,6 @@
 package com.tweetApp.comp2.ServiceImpl.ViewAndReply;
 
+import com.tweetApp.comp2.Config.KafkaProducerConfig;
 import com.tweetApp.comp2.Exceptions.ErrorOccurred;
 import com.tweetApp.comp2.Repository.UserRepo;
 import com.tweetApp.comp2.model.User;
@@ -17,7 +18,8 @@ import java.util.List;
 public class searchUserImpl implements searchUserService {
     @Autowired
     UserRepo uRepo;
-
+    @Autowired
+    KafkaProducerConfig producer;
     @Override
     public ResponseEntity<?> findUser(String username) {
         try{
@@ -25,6 +27,7 @@ public class searchUserImpl implements searchUserService {
             List<User> users= uRepo.searchUser(username);
             System.out.println(users);
             if(users.size()>0){
+                producer.sendMessage("User searched");
                 return new ResponseEntity<List<User>>(users, HttpStatus.OK);
             }
             else{

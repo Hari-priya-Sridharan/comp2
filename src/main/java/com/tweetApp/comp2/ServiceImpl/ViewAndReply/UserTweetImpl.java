@@ -1,5 +1,7 @@
 package com.tweetApp.comp2.ServiceImpl.ViewAndReply;
 
+import com.tweetApp.comp2.Config.KafkaConsumerConfig;
+import com.tweetApp.comp2.Config.KafkaProducerConfig;
 import com.tweetApp.comp2.Controller.RegisterAndLogin.regController;
 import com.tweetApp.comp2.DTO.Comment;
 import com.tweetApp.comp2.Exceptions.ErrorOccurred;
@@ -24,6 +26,10 @@ public class UserTweetImpl implements UserTweetService {
     TweetRepo tRepo;
     @Autowired
     UserRepo uRepo;
+    @Autowired
+    KafkaProducerConfig producer;
+    @Autowired
+    KafkaConsumerConfig consumer;
     private static final Logger LOG = LogManager.getLogger(regController.class.getName());
     @Override
     public ResponseEntity<?> getUserTweets(String username) {
@@ -39,6 +45,7 @@ public class UserTweetImpl implements UserTweetService {
             }
             else{
                 LOG.info("Fetched list of tweets is null");
+                producer.sendMessage("Fetched the list of tweets");
                 return new ResponseEntity<>( HttpStatus.OK);
             }
         }
@@ -59,6 +66,7 @@ public class UserTweetImpl implements UserTweetService {
             }
             LOG.info("Posting the tweet as {}", username);
             tRepo.save(tweet);
+            consumer.consume("Posted tweeet :"+tweet);
             return new ResponseEntity<>( HttpStatus.CREATED);
         }
         catch(UserNotFoundException e){
@@ -86,6 +94,7 @@ public class UserTweetImpl implements UserTweetService {
            t.setTweetText(tweet.getTweetText());
            tRepo.save(t);
            LOG.info("Tweet updated");
+           consumer.consume("Updated the tweet : "+tweet);
            return new ResponseEntity<>( HttpStatus.OK);
        }
        catch(UserNotFoundException e){
@@ -112,6 +121,7 @@ public class UserTweetImpl implements UserTweetService {
             }
             tRepo.deleteByTweetId(tweetId);
             LOG.info("Tweet Deleted");
+            producer.sendMessage("Tweet deleted");
             return new ResponseEntity<>( HttpStatus.OK);
         }
         catch(UserNotFoundException e){
@@ -142,6 +152,7 @@ public class UserTweetImpl implements UserTweetService {
             LOG.info("{} commented on {}'s tweet",username,t.getUsername());
             t.setComments(comments);
             tRepo.save(t);
+            consumer.consume("Comment recorded");
             LOG.info("Comment recorded successfully");
             return new ResponseEntity<>( HttpStatus.OK);
         }
@@ -158,7 +169,7 @@ public class UserTweetImpl implements UserTweetService {
     public ResponseEntity<?> fetchTweets(int tweetID) {
         try{
             Tweet tweet=tRepo.findByTweetId(tweetID);
-
+            producer.sendMessage("Tweets fetched");
             return new ResponseEntity<>( tweet,HttpStatus.OK);
         }
         catch(Exception e){
@@ -182,6 +193,7 @@ public class UserTweetImpl implements UserTweetService {
             LOG.info("{} liked {}'s tweet",username,t.getUsername());
             t.setLikes(likes);
             tRepo.save(t);
+            consumer.consume("Like recorded");
             LOG.info("Like recorded successfully");
             return new ResponseEntity<>(HttpStatus.OK);
         }

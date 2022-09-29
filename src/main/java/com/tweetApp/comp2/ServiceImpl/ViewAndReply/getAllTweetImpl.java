@@ -1,5 +1,6 @@
 package com.tweetApp.comp2.ServiceImpl.ViewAndReply;
 
+import com.tweetApp.comp2.Config.KafkaProducerConfig;
 import com.tweetApp.comp2.Controller.RegisterAndLogin.regController;
 import com.tweetApp.comp2.Exceptions.ErrorOccurred;
 import com.tweetApp.comp2.Repository.TweetRepo;
@@ -19,16 +20,19 @@ import java.util.List;
 public class getAllTweetImpl implements getAllTweetService {
     @Autowired
     TweetRepo tRepo;
+    @Autowired
+    KafkaProducerConfig producer;
     private static final Logger LOG = LogManager.getLogger(regController.class.getName());
     @Override
     public ResponseEntity<?> fetchAllTweets() {
         try{
             LOG.info("Fetching all tweets");
-            List<Tweet> tweets=tRepo.findByOrderByTweetDateTimeDesc();
-//            List<Tweet> tweets=tRepo.findAll(Sort.by(Sort.Direction.DESC, "tweetDateTime"));
+//            List<Tweet> tweets=tRepo.findByOrderByTweetDateTimeDesc();
+            List<Tweet> tweets=tRepo.findAll(Sort.by(Sort.Direction.DESC, "tweetDateTime"));
             System.out.println(tweets);
             if(tweets.size()>0){
                 LOG.info("Fetched Tweets : ",tweets);
+                producer.sendMessage("Tweets fetched "+tweets);
                 return new ResponseEntity<>(tweets, HttpStatus.OK);
             }
             else{

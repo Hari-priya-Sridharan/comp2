@@ -1,6 +1,8 @@
 package com.tweetApp.comp2.ServiceImpl.RegisterAndLogin;
 
 
+import com.tweetApp.comp2.Config.KafkaConsumerConfig;
+import com.tweetApp.comp2.Config.KafkaProducerConfig;
 import com.tweetApp.comp2.Controller.RegisterAndLogin.regController;
 import com.tweetApp.comp2.Exceptions.BadLoginCredentialsException;
 import com.tweetApp.comp2.Exceptions.ErrorOccurred;
@@ -20,7 +22,8 @@ public class LoginImpl implements LoginService {
     private static final Logger LOG = LogManager.getLogger(regController.class.getName());
     @Autowired
     UserRepo uRepo;
-
+    @Autowired
+    KafkaConsumerConfig consumer;
 
 
     public ResponseEntity<?> authenticateUser(String username, String password) {
@@ -28,6 +31,9 @@ public class LoginImpl implements LoginService {
             LOG.info("Fetching user details");
             User user=this.findByUsername(username);
             if(password.equals(user.getPassword())){
+                user.setStatus(1);
+                uRepo.save(user);
+                consumer.consume("User logged in");
                 return new ResponseEntity<>(user,  HttpStatus.OK);
             }
            else{
@@ -41,9 +47,8 @@ public class LoginImpl implements LoginService {
     public User findByUsername(String username){
         try {
              User u= uRepo.findByEmail(username);
-             u.setStatus(1);
-             uRepo.save(u);
-            LOG.info("Logged in successfully as {}",username);
+
+            LOG.info("Fetched successfully as {}",username);
              return u;
         }
         catch (Exception e) {

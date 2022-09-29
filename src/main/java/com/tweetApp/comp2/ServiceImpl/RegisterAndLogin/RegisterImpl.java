@@ -1,5 +1,6 @@
 package com.tweetApp.comp2.ServiceImpl.RegisterAndLogin;
 
+import com.tweetApp.comp2.Config.KafkaConsumerConfig;
 import com.tweetApp.comp2.Controller.RegisterAndLogin.regController;
 import com.tweetApp.comp2.Exceptions.ErrorOccurred;
 import com.tweetApp.comp2.Exceptions.UsernameExistsException;
@@ -22,6 +23,8 @@ public class RegisterImpl implements RegisterService {
 
     @Autowired
     UserRepo uRepo;
+    @Autowired
+    KafkaConsumerConfig consumer;
 
     @Override
     public ResponseEntity<?> registerUser(User user) {
@@ -36,6 +39,7 @@ public class RegisterImpl implements RegisterService {
             } else {
                 log.info("saving user details to the database");
                 uRepo.save(user);
+                consumer.consume("User Registered Successfully");
                 return new ResponseEntity<>(HttpStatus.CREATED);
 
             }

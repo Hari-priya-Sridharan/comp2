@@ -41,7 +41,7 @@ public class RegisterControllerTests {
     @Test
     void testUserController() throws Exception {
         when(rService.registerUser(TESTUSER))
-                .thenReturn(new ResponseEntity<>("user added successfully", HttpStatus.CREATED));
+                .thenReturn(new ResponseEntity<>(HttpStatus.CREATED));
 
 
         ObjectMapper mapper = new ObjectMapper();
