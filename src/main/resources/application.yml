@@ -10,3 +10,8 @@ kafka:
     key-serializer: org.apache.kafka.common.serialization.StringSerializer
     value-serializer: org.apache.kafka.common.serialization.StringSerializer
     batch-size: 100000
+spring:
+  data:
+    mongodb:
+      host: tweetappmongodb
+      port: 27017
