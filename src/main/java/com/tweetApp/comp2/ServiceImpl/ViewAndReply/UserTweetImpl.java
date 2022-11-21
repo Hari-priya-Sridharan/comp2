@@ -121,7 +121,7 @@ public class UserTweetImpl implements UserTweetService {
             }
             tRepo.deleteByTweetId(tweetId);
             LOG.info("Tweet Deleted");
-            producer.sendMessage("Tweet deleted");
+            producer.sendMessage("Tweets fetched");
             return new ResponseEntity<>( HttpStatus.OK);
         }
         catch(UserNotFoundException e){

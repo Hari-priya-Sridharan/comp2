@@ -31,7 +31,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/v1.0/tweets/{username}/{id}").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/v1.0/tweets/{username}/add").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/v1.0/tweets/{username}/reply/{id}").permitAll()
-                .antMatchers(HttpMethod.PUT, "/api/v1.0/tweets/{username}/update").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/v1.0/tweets/{username}/update").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/v1.0/tweets/{username}/like/{id}").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/api/v1.0/tweets/{username}/delete/{id}").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/api/v1.0/tweets/{username}/delete/{id}").permitAll()

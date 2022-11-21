@@ -39,7 +39,7 @@ public class UserTweetController {
         LOG.info("Tweet id is set as : ",tweet.getTweetId());
         return uService.postTweet(tweet);
     }
-    @PutMapping(value ="/update" )
+    @PostMapping(value ="/update" )
     public ResponseEntity<String> updateTweet(@PathVariable("username") String username,@RequestBody Tweet tweet){
         LOG.info("Updating the tweet");
 //        tweet.setTweetId(tweetID);
