@@ -168,6 +168,7 @@
 			</plugin>
 
 		</plugins>
+		<finalName>tweet-app</finalName>
 	</build>
 	<reporting>
 		<plugins>
