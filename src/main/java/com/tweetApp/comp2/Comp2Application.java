@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
 import java.util.Arrays;
@@ -18,6 +20,28 @@ public class Comp2Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Comp2Application.class, args);
+	}
+
+
+//	@Bean
+//	public WebMvcConfigurer corsConfigurer() {
+//		return new WebMvcConfigurer() {
+//			@Override
+//			public void addCorsMappings(CorsRegistry registry) {
+////				registry.addMapping("/**").allowedOrigins("http://tweet-ui-bucket.s3-website.ap-south-1.amazonaws.com");
+//				registry.addMapping("/**").allowedOrigins("http://localhost:4200");
+//			}
+//		};
+//	}
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				//registry.addMapping("/**").allowedOrigins("http://tweet-ui-bucket-2.s3-website.ap-south-1.amazonaws.com:4200");
+			registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
+			}
+		};
 	}
 
 //	@Bean
